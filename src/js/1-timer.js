@@ -1,5 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import izitoast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const inputPicker = document.querySelector('#datetime-picker');
 const buttonRef = document.querySelector('button');
@@ -17,39 +19,31 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
-    const resTime = selectedDate.getTime() - new Date().getTime();
-    const renderTime = convertMs(resTime);
 
     if (selectedDate < new Date()) {
-      window.alert('Please choose a date in the future');
+      izitoast.error({
+        position: 'topRight',
+        message: 'Please choose a date in the future',
+      });
+
       buttonRef.setAttribute('disablet', true);
     } else {
       buttonRef.removeAttribute('disablet');
       userSelectedDate = selectedDate;
     }
-
-    timerDay.textContent = `${renderTime.days}`;
-    timerHours.textContent = `${renderTime.hours}`;
-    timerMinutes.textContent = `${renderTime.minutes}`;
-    timerSeconds.textContent = `${renderTime.seconds}`;
   },
 };
-// console.log(userSelectedDate);
 
 const datePicker = flatpickr(inputPicker, options);
-
 buttonRef.addEventListener('click', () => {
-  // datePicker.config.defaultDate = new Date();
-
-  const currentDateTime = new Date();
   const selectedDateTime = userSelectedDate.getTime();
-  console.log(selectedDateTime);
 
   const timeInterval = setInterval(() => {
+    const currentDateTime = new Date().getTime();
     let different = selectedDateTime - currentDateTime;
 
     const result = convertMs(different);
-    if (different <= 0) {
+    if (different <= 1000) {
       clearInterval(timeInterval);
     } else {
       timerDay.textContent = `${result.days}`;
@@ -68,13 +62,18 @@ function convertMs(ms) {
   const day = hour * 24;
 
   // Remaining days
-  const days = Math.floor(ms / day);
+  const days = String(Math.floor(ms / day)).padStart(2, '0');
   // Remaining hours
-  const hours = Math.floor((ms % day) / hour);
+  const hours = String(Math.floor((ms % day) / hour)).padStart(2, '0');
   // Remaining minutes
-  const minutes = Math.floor(((ms % day) % hour) / minute);
+  const minutes = String(Math.floor(((ms % day) % hour) / minute)).padStart(
+    2,
+    '0'
+  );
   // Remaining seconds
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+  const seconds = String(
+    Math.floor((((ms % day) % hour) % minute) / second)
+  ).padStart(2, '0');
 
   return { days, hours, minutes, seconds };
 }

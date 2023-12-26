@@ -39,6 +39,10 @@ button:focus {
   border: none;
 }
 
+button:not([disabled]):hover {
+  background: #6c8cff;
+}
+
 .timer {
   display: flex;
   width: 355px;
