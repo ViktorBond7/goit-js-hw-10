@@ -1,6 +1,6 @@
 #datetime-picker {
-  width: 265px;
-  height: 35px;
+  width: 272px;
+  height: 40px;
   border-radius: 4px;
   color: #2e2f42;
   font-family: Montserrat;
@@ -10,6 +10,8 @@
   letter-spacing: 0.64px;
   outline: transparent;
   margin-top: 36px;
+  box-sizing: border-box;
+  padding-left: 16px;
 }
 
 #datetime-picker:hover,
