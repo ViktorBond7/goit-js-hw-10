@@ -43,15 +43,15 @@ buttonRef.addEventListener('click', event => {
   const timeInterval = setInterval(() => {
     const currentDateTime = new Date().getTime();
     let different = selectedDateTime - currentDateTime;
-
     const result = convertMs(different);
+
+    timerDay.textContent = `${result.days}`;
+    timerHours.textContent = `${result.hours}`;
+    timerMinutes.textContent = `${result.minutes}`;
+    timerSeconds.textContent = `${result.seconds}`;
+
     if (different <= 1000) {
       clearInterval(timeInterval);
-    } else {
-      timerDay.textContent = `${result.days}`;
-      timerHours.textContent = `${result.hours}`;
-      timerMinutes.textContent = `${result.minutes}`;
-      timerSeconds.textContent = `${result.seconds}`;
     }
   }, 1000);
 });
