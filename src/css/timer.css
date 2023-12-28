@@ -35,12 +35,6 @@ button {
   background: #4e75ff;
 }
 
-button:hover,
-button:focus {
-  background: #6c8cff;
-  border: none;
-}
-
 button:not([disabled]):hover {
   background: #6c8cff;
 }

@@ -9,8 +9,9 @@ const timerDay = document.querySelector('[data-days]');
 const timerHours = document.querySelector('[data-hours]');
 const timerMinutes = document.querySelector('[data-minutes]');
 const timerSeconds = document.querySelector('[data-seconds]');
+buttonRef.disabled = true;
 
-let userSelectedDate = '';
+let userSelectedDate;
 
 const options = {
   enableTime: true,
@@ -18,24 +19,25 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    const selectedDate = selectedDates[0];
-
-    if (selectedDate < new Date()) {
+    if (selectedDates[0] < new Date()) {
       izitoast.error({
         position: 'topRight',
         message: 'Please choose a date in the future',
       });
-
-      buttonRef.setAttribute('disablet', true);
     } else {
-      buttonRef.removeAttribute('disablet');
-      userSelectedDate = selectedDate;
+      userSelectedDate = selectedDates[0];
+      buttonRef.disabled = false;
     }
   },
 };
 
 const datePicker = flatpickr(inputPicker, options);
-buttonRef.addEventListener('click', () => {
+inputPicker.addEventListener('focus', () => {
+  datePicker.config.defaultDate = new Date();
+});
+buttonRef.addEventListener('click', event => {
+  event.preventDefault();
+  buttonRef.disabled = true;
   const selectedDateTime = userSelectedDate.getTime();
 
   const timeInterval = setInterval(() => {
